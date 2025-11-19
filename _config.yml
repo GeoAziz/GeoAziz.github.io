@@ -38,6 +38,10 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate-v2
 
+# Markdown and syntax highlighting (enable Dockerfile highlighting)
+markdown: kramdown
+highlighter: rouge
+
 social:
   image: /assets/images/og-image.svg
 
