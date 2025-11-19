@@ -1,0 +1,50 @@
+---
+layout: default
+---
+
+<article class="container post-article">
+  <header>
+    <h1>{{ page.title }}</h1>
+    <p class="meta muted small">{{ page.date | date: "%B %d, %Y" }}{% if page.categories %} • {{ page.categories | join: ", " }}{% endif %}</p>
+  </header>
+
+  <section class="post-content">
+    {{ content }}
+  </section>
+
+  <hr>
+
+  <div class="post-pagination" style="display:flex; justify-content: space-between; margin-top:20px;">
+
+    {% if page.previous %}
+      <div class="prev-post"><a href="{{ page.previous.url | relative_url }}" style="text-decoration:none;">⬅️ Previous: {{ page.previous.title }}</a></div>
+    {% else %}
+      <div></div>
+    {% endif %}
+
+    {% if page.next %}
+      <div class="next-post"><a href="{{ page.next.url | relative_url }}" style="text-decoration:none;">Next: {{ page.next.title }} ➡️</a></div>
+    {% endif %}
+
+  </div>
+
+  <!-- Giscus Comment System -->
+  <div id="comments" aria-live="polite" style="margin-top:28px;">
+    <script src="https://giscus.app/client.js"
+            data-repo="GeoAziz/GeoAziz.github.io"
+            data-repo-id="R_kgDOLYp4VQ"
+            data-category="General"
+            data-category-id="DIC_kwDOLYp4Vc4Cf5Ra"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="light"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+
+</article>
