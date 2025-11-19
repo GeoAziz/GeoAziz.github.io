@@ -1,0 +1,36 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+---
+
+<main class="container">
+  <header>
+    <h1>Tags</h1>
+    <p class="muted">Browse posts by topic. Click any tag to jump to its section.</p>
+  </header>
+
+  <nav aria-label="All tags" class="tag-cloud" style="margin:18px 0;">
+    {% assign tags_sorted = site.tags | sort_natural: 0 %}
+    {% for tag in tags_sorted %}
+      {% assign tag_name = tag[0] %}
+      <a class="tag-pill" href="#{{ tag_name | slugify }}">{{ tag_name }} <span class="tag-count">({{ tag[1].size }})</span></a>
+    {% endfor %}
+  </nav>
+
+  <section class="tags-list">
+    {% for tag in tags_sorted %}
+      {% assign tag_name = tag[0] %}
+      {% assign posts = tag[1] %}
+      <article id="{{ tag_name | slugify }}" style="margin-top:28px;">
+        <h2>{{ tag_name }} <small class="muted">— {{ posts.size }} post{% if posts.size > 1 %}s{% endif %}</small></h2>
+        <ul>
+          {% for post in posts %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a> <span class="muted small">• {{ post.date | date: "%B %d, %Y" }}</span></li>
+          {% endfor %}
+        </ul>
+      </article>
+    {% endfor %}
+  </section>
+
+</main>
