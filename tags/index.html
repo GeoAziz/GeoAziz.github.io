@@ -11,15 +11,13 @@ permalink: /tags/
   </header>
 
   <nav aria-label="All tags" class="tag-cloud" style="margin:18px 0;">
-    {% assign tags_sorted = site.tags | sort_natural: 0 %}
-    {% for tag in tags_sorted %}
-      {% assign tag_name = tag[0] %}
-      <a class="tag-pill" href="#{{ tag_name | slugify }}">{{ tag_name }} <span class="tag-count">({{ tag[1].size }})</span></a>
+    {% for tag in site.tags %}
+      <a class="tag-pill" href="#{{ tag[0] | slugify }}">{{ tag[0] }} <span class="tag-count">({{ tag[1].size }})</span></a>
     {% endfor %}
   </nav>
 
   <section class="tags-list">
-    {% for tag in tags_sorted %}
+    {% for tag in site.tags %}
       {% assign tag_name = tag[0] %}
       {% assign posts = tag[1] %}
       <article id="{{ tag_name | slugify }}" style="margin-top:28px;">
