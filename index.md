@@ -37,3 +37,12 @@ title: Home
     <li><a href="/about/">About Me</a></li>
   </ul>
 </section>
+
+<section class="subscribe">
+  <h3>Subscribe</h3>
+  <p>Get short updates when I publish new posts.</p>
+  <form action="https://example.com/subscribe" method="post">
+    <input type="email" name="email" placeholder="you@example.com" required>
+    <button type="submit">Subscribe</button>
+  </form>
+</section>

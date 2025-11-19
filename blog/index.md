@@ -2,6 +2,8 @@
 layout: default
 title: Blog
 permalink: /blog/
+pagination:
+  enabled: true
 ---
 
 ## Blog

@@ -1,0 +1,14 @@
+<!-- Giscus comment widget (disabled by default). Configure `site.giscus` in _config.yml and set enabled: true -->
+{% if site.giscus.enabled %}
+<script src="https://giscus.app/client.js"
+        data-repo="{{ site.giscus.repo }}"
+        data-repo-id=""
+        data-category="{{ site.giscus.category }}"
+        data-category-id=""
+        data-mapping="{{ site.giscus.mapping | default: 'pathname' }}"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        crossorigin="anonymous"
+        async>
+</script>
+{% endif %}

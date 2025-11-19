@@ -33,9 +33,29 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-paginate-v2
 
 social:
   image: /assets/images/og-image.svg
+
+
+exclude:
+  - index.markdown
+  - about.markdown
+  - assets/main.css
+
+pagination:
+  enabled: true
+  per_page: 5
+  permalink: "/page:num/"
+  sort_field: "date"
+  sort_reverse: true
+
+giscus:
+  enabled: false
+  repo: "GeoAziz/GeoAziz.github.io"
+  category: "General"
+  mapping: "pathname"
 
 # Exclude from processing.
 # The following items will not be processed, by default.
