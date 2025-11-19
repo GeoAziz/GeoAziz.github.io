@@ -49,6 +49,22 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 /* small arrow icon tweak (use emoji currently) */
 .post-pagination .arrow{font-size:1.05rem}
 
+/* Homepage magazine previews */
+.home-magazine{margin-top:1.5rem}
+.post-preview{margin-bottom:40px;border-bottom:1px solid rgba(15,23,42,0.04);padding-bottom:20px}
+.post-preview img{width:100%;border-radius:8px;display:block;margin-bottom:8px}
+.post-preview h3{margin:0.4rem 0}
+
+/* TOC */
+#toc{background:rgba(246,250,255,0.8);padding:0.8rem;border-radius:8px;margin:0.6rem 0}
+#toc h3{margin:0 0 0.5rem 0}
+#tocList{margin:0;padding-left:1rem}
+
+/* Share */
+.share a{color:var(--accent);text-decoration:none;font-weight:600}
+.share a:hover{text-decoration:underline}
+
+
 /* Simple content improvements */
 .site-main .container h2{margin-top:0}
 .site-footer{border-top:1px solid rgba(15,23,42,0.04);padding:1.5rem 0;color:rgba(15,23,42,0.6);margin-top:2rem;text-align:center}

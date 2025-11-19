@@ -46,3 +46,18 @@ title: Home
     <button type="submit">Subscribe</button>
   </form>
 </section>
+
+<section class="home-magazine">
+  <h2>Latest Posts</h2>
+  {% for post in site.posts %}
+  <div class="post-preview">
+    {% if post.image %}
+      <a href="{{ post.url }}"><img src="{{ post.image }}" alt="{{ post.title }}" /></a>
+    {% endif %}
+    <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+    <p class="muted small">{{ post.date | date: "%Y-%m-%d" }} • {{ post.categories | join: ", " }}</p>
+    <p>{{ post.excerpt }}</p>
+    <p><a href="{{ post.url }}" class="nav-cta">Read more</a></p>
+  </div>
+  {% endfor %}
+</section>

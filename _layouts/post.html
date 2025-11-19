@@ -5,12 +5,60 @@ layout: default
 <article class="container post-article">
   <header>
     <h1>{{ page.title }}</h1>
+    {% if page.image %}
+      <p><img src="{{ page.image }}" alt="{{ page.title }}" style="width:100%;border-radius:8px;margin:12px 0;"/></p>
+    {% endif %}
     <p class="meta muted small">{{ page.date | date: "%B %d, %Y" }}{% if page.categories %} • {{ page.categories | join: ", " }}{% endif %}</p>
   </header>
+
+  <!-- Table of Contents -->
+  <div id="toc">
+    <h3>📘 Table of Contents</h3>
+    <ul id="tocList"></ul>
+  </div>
 
   <section class="post-content">
     {{ content }}
   </section>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toc = document.getElementById('tocList');
+    if(!toc) return;
+    document.querySelectorAll('.post-content h2, .post-content h3').forEach(h => {
+      const id = h.innerText.replace(/[^a-z0-9\s-]/ig,'').replace(/\s+/g, '-').toLowerCase();
+      if(!h.id) h.id = id;
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h.innerText;
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+  });
+  </script>
+  <hr>
+
+  <div class="post-pagination" style="display:flex; justify-content: space-between; margin-top:20px;">
+
+    {% if page.previous %}
+      <div class="prev-post"><a href="{{ page.previous.url | relative_url }}">⬅️ Previous: {{ page.previous.title }}</a></div>
+    {% else %}
+      <div></div>
+    {% endif %}
+
+    {% if page.next %}
+      <div class="next-post"><a href="{{ page.next.url | relative_url }}">Next: {{ page.next.title }} ➡️</a></div>
+    {% endif %}
+
+  </div>
+
+  <div class="share" style="margin-top:18px;">
+    <h4>Share this post:</h4>
+    <a target="_blank" href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ site.url }}{{ page.url }}">Twitter</a> |
+    <a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url }}{{ page.url }}">LinkedIn</a> |
+    <a target="_blank" href="https://reddit.com/submit?url={{ site.url }}{{ page.url }}&title={{ page.title | uri_escape }}">Reddit</a>
+  </div>
 
   <!-- Comments: lazy-load + dark-mode auto-switch -->
   <div id="comments" aria-live="polite" style="margin-top:28px;">
