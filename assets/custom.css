@@ -18,6 +18,21 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 .nav-cta{background:var(--accent);color:white;padding:0.45rem 0.8rem;border-radius:8px;text-decoration:none;font-weight:600}
 .nav-cta:hover{background:#0050d1}
 
+/* Theme toggle styling */
+.theme-li{display:flex;align-items:center}
+.theme-toggle{display:inline-flex;align-items:center;gap:0.45rem;padding:0.35rem 0.6rem;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.04);cursor:pointer}
+.theme-toggle .theme-icon{display:inline-flex;align-items:center;gap:6px}
+.theme-toggle svg{transition:transform .18s ease, opacity .18s ease}
+.theme-toggle:hover{transform:translateY(-2px)}
+.theme-toggle .caret{opacity:0.7}
+
+/* Theme menu popover */
+.theme-menu{position:absolute;right:0;top:calc(100% + 10px);background:var(--card);border-radius:10px;padding:6px;box-shadow:0 10px 30px rgba(2,6,12,0.08);display:none;min-width:140px;border:1px solid rgba(15,23,42,0.06);z-index:60}
+.theme-menu[aria-hidden="false"]{display:block}
+.theme-menu-btn{display:block;width:100%;background:transparent;border:0;padding:0.45rem 0.6rem;text-align:left;border-radius:8px;color:var(--text);cursor:pointer}
+.theme-menu-btn:hover{background:rgba(0,0,0,0.04)}
+
+
 /* Mobile nav toggle */
 .nav-checkbox{display:none}
 .nav-toggle{display:none}
@@ -50,8 +65,8 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 .post-pagination .prev-post a{padding-left:0.7rem}
 .post-pagination .next-post a{padding-right:0.7rem}
 
-/* small arrow icon tweak (use emoji currently) */
-.post-pagination .arrow{font-size:1.05rem}
+.post-pagination .svg-arrow{width:18px;height:18px;display:inline-block;vertical-align:middle}
+.post-pagination .svg-arrow path{fill:currentColor}
 
 /* Homepage magazine previews */
 .home-magazine{margin-top:1.5rem}

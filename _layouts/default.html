@@ -29,9 +29,21 @@
     function getStored(){ return localStorage.getItem('site-theme'); }
     function setTheme(t){ root.setAttribute('data-theme', t); localStorage.setItem('site-theme', t); document.dispatchEvent(new CustomEvent('theme-changed',{detail: t})); updateToggle(t);}    
     function prefersDark(){ return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
-    function init(){ const stored = getStored(); const theme = stored || (prefersDark() ? 'dark' : 'light'); root.setAttribute('data-theme', theme); updateToggle(theme); }
-    function updateToggle(theme){ const btn = document.getElementById('theme-toggle'); if(!btn) return; const pressed = theme === 'dark'; btn.setAttribute('aria-pressed', pressed ? 'true' : 'false'); const sun = document.getElementById('icon-sun'); const moon = document.getElementById('icon-moon'); if(sun && moon){ sun.style.display = pressed ? 'none' : 'inline-block'; moon.style.display = pressed ? 'inline-block' : 'none'; } }
-    function toggle(){ const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; setTheme(cur === 'dark' ? 'light' : 'dark'); }
+    function init(){ const stored = getStored(); let theme = stored || (prefersDark() ? 'dark' : 'light'); if(stored === 'system') theme = (prefersDark() ? 'dark' : 'light'); root.setAttribute('data-theme', stored === 'system' ? 'system' : theme); updateToggle(stored || 'auto'); }
+    function updateToggle(state){ const btn = document.getElementById('theme-toggle'); if(!btn) return; // state: 'dark'|'light'|'auto'|'system'
+      const sun = document.getElementById('icon-sun'); const moon = document.getElementById('icon-moon');
+      if(state === 'dark'){ btn.setAttribute('aria-pressed','true'); if(sun) sun.style.display='none'; if(moon) moon.style.display='inline-block'; btn.title='Dark mode'; }
+      else if(state === 'light'){ btn.setAttribute('aria-pressed','false'); if(sun) sun.style.display='inline-block'; if(moon) moon.style.display='none'; btn.title='Light mode'; }
+      else { // auto/system
+        btn.setAttribute('aria-pressed','false'); if(sun) sun.style.display='inline-block'; if(moon) moon.style.display='none'; btn.title='Match OS'; }
+    }
+    function toggle(){ // simple toggle between dark and light; preserves 'system' choice if currently explicit
+      const stored = getStored(); if(stored === 'system' || stored === null){ // flip current effective theme
+        const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; setTheme(cur === 'dark' ? 'light' : 'dark');
+      } else { const cur = stored === 'dark' ? 'dark' : 'light'; setTheme(cur === 'dark' ? 'light' : 'dark'); }
+    }
+    function setSystem(){ // revert to system preference
+      localStorage.setItem('site-theme','system'); document.documentElement.removeAttribute('data-theme'); document.dispatchEvent(new CustomEvent('theme-changed',{detail: (prefersDark() ? 'dark' : 'light')})); updateToggle('auto'); }
     // attach
     document.addEventListener('DOMContentLoaded', function(){ init(); const tb = document.getElementById('theme-toggle'); if(tb) tb.addEventListener('click', toggle); });
 

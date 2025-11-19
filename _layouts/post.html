@@ -42,13 +42,13 @@ layout: default
   <div class="post-pagination" style="display:flex; justify-content: space-between; margin-top:20px;">
 
     {% if page.previous %}
-      <div class="prev-post"><a href="{{ page.previous.url | relative_url }}">⬅️ Previous: {{ page.previous.title }}</a></div>
+      <div class="prev-post"><a href="{{ page.previous.url | relative_url }}"><svg class="svg-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg> Previous: {{ page.previous.title }}</a></div>
     {% else %}
       <div></div>
     {% endif %}
 
     {% if page.next %}
-      <div class="next-post"><a href="{{ page.next.url | relative_url }}">Next: {{ page.next.title }} ➡️</a></div>
+      <div class="next-post"><a href="{{ page.next.url | relative_url }}">Next: {{ page.next.title }} <svg class="svg-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></a></div>
     {% endif %}
 
   </div>
