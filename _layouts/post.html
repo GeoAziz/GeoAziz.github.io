@@ -12,39 +12,88 @@ layout: default
     {{ content }}
   </section>
 
-  <hr>
-
-  <div class="post-pagination" style="display:flex; justify-content: space-between; margin-top:20px;">
-
-    {% if page.previous %}
-      <div class="prev-post"><a href="{{ page.previous.url | relative_url }}" style="text-decoration:none;">⬅️ Previous: {{ page.previous.title }}</a></div>
-    {% else %}
-      <div></div>
-    {% endif %}
-
-    {% if page.next %}
-      <div class="next-post"><a href="{{ page.next.url | relative_url }}" style="text-decoration:none;">Next: {{ page.next.title }} ➡️</a></div>
-    {% endif %}
-
-  </div>
-
-  <!-- Giscus Comment System -->
+  <!-- Comments: lazy-load + dark-mode auto-switch -->
   <div id="comments" aria-live="polite" style="margin-top:28px;">
-    <script src="https://giscus.app/client.js"
-            data-repo="GeoAziz/GeoAziz.github.io"
-            data-repo-id="R_kgDOLYp4VQ"
-            data-category="General"
-            data-category-id="DIC_kwDOLYp4Vc4Cf5Ra"
-            data-mapping="pathname"
-            data-strict="0"
-            data-reactions-enabled="1"
-            data-emit-metadata="0"
-            data-input-position="bottom"
-            data-theme="light"
-            data-lang="en"
-            crossorigin="anonymous"
-            async>
-    </script>
+    <div id="giscus_container" aria-hidden="true"></div>
+    <div style="margin-top:12px;">
+      <button id="load-comments-btn" class="nav-cta" aria-controls="giscus_container">Load comments</button>
+    </div>
   </div>
 
-</article>
+  <script>
+  (function(){
+    // Giscus configuration (from provided values)
+    const GISCUS = {
+      repo: 'GeoAziz/GeoAziz.github.io',
+      repoId: 'R_kgDOLYp4VQ',
+      category: 'General',
+      categoryId: 'DIC_kwDOLYp4Vc4Cf5Ra',
+      mapping: 'pathname',
+      inputPosition: 'bottom'
+    };
+
+    const container = document.getElementById('giscus_container');
+    const btn = document.getElementById('load-comments-btn');
+
+    function getPreferredTheme(){
+      try{
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }catch(e){ return 'light'; }
+    }
+
+    function injectGiscus(){
+      if(!container || container.dataset.loaded) return;
+      const s = document.createElement('script');
+      s.src = 'https://giscus.app/client.js';
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+      s.id = 'giscus-script';
+      s.setAttribute('data-repo', GISCUS.repo);
+      if(GISCUS.repoId) s.setAttribute('data-repo-id', GISCUS.repoId);
+      if(GISCUS.category) s.setAttribute('data-category', GISCUS.category);
+      if(GISCUS.categoryId) s.setAttribute('data-category-id', GISCUS.categoryId);
+      s.setAttribute('data-mapping', GISCUS.mapping);
+      s.setAttribute('data-reactions-enabled', '1');
+      s.setAttribute('data-emit-metadata', '0');
+      s.setAttribute('data-input-position', GISCUS.inputPosition || 'bottom');
+      s.setAttribute('data-theme', getPreferredTheme());
+      s.setAttribute('data-lang', 'en');
+      container.appendChild(s);
+      container.dataset.loaded = '1';
+      container.setAttribute('aria-hidden', 'false');
+      if(btn) btn.style.display = 'none';
+    }
+
+    // Lazy-load by click
+    if(btn){
+      btn.addEventListener('click', function(){ injectGiscus(); });
+    }
+
+    // Lazy-load when the comments container is near the viewport
+    try{
+      const obs = new IntersectionObserver(function(entries, observer){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ injectGiscus(); observer.disconnect(); }
+        });
+      }, {rootMargin: '300px'});
+      obs.observe(container);
+    }catch(e){ /* IntersectionObserver not supported */ }
+
+    // Update Giscus theme dynamically when system theme changes
+    if(window.matchMedia){
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      mq.addEventListener && mq.addEventListener('change', function(e){
+        const theme = e.matches ? 'dark' : 'light';
+        // If giscus iframe exists, send postMessage to update theme
+        const iframe = container.querySelector('iframe');
+        if(iframe && iframe.contentWindow){
+          iframe.contentWindow.postMessage({giscus: {setConfig: {theme: theme}}}, 'https://giscus.app');
+        } else if(container.dataset.loaded){
+          // fallback: reload widget with new theme
+          const script = document.getElementById('giscus-script');
+          if(script){ script.remove(); container.dataset.loaded = ''; injectGiscus(); }
+        }
+      });
+    }
+  })();
+  </script>
