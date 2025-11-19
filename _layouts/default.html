@@ -86,6 +86,47 @@
           }catch(_){ /* ignore cross-origin/frame access errors */ }
         });
       });
+
+      // Helper: post theme to giscus frames and optionally retry if none present yet
+      function getEffectiveTheme(explicit){
+        const eff = explicit || document.documentElement.getAttribute('data-theme');
+        if(eff === 'system'){
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if(!eff){
+          return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        return eff;
+      }
+
+      function postToGiscus(theme){
+        const frames = Array.from(document.querySelectorAll('iframe.giscus-frame, iframe.giscus-iframe, iframe'));
+        frames.forEach(function(iframe){
+          try{ iframe.contentWindow.postMessage({giscus: {setConfig: {theme: theme}}}, 'https://giscus.app'); }catch(_){}
+        });
+        return frames.length;
+      }
+
+      // On DOMContentLoaded, ensure giscus receives the current theme. Retry a few times
+      document.addEventListener('DOMContentLoaded', function(){
+        const themeNow = getEffectiveTheme();
+        // dispatch a theme-changed event to run any other listeners as well
+        document.dispatchEvent(new CustomEvent('theme-changed', { detail: themeNow }));
+
+        // try posting immediately and retry if no frames found
+        let attempts = 0;
+        const maxAttempts = 4;
+        const retry = function(){
+          attempts += 1;
+          const sent = postToGiscus(themeNow);
+          if(sent === 0 && attempts < maxAttempts){
+            // exponential-ish backoff: 300ms * attempts^2
+            const delay = 300 * Math.pow(attempts, 2);
+            setTimeout(retry, delay);
+          }
+        };
+        retry();
+      });
     })();
     </script>
   </body>
