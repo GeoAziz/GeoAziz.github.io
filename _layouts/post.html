@@ -91,6 +91,9 @@ layout: default
 
     function getPreferredTheme(){
       try{
+        // prefer explicit site theme if set
+        const siteTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('site-theme');
+        if(siteTheme) return siteTheme === 'dark' ? 'dark' : 'light';
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }catch(e){ return 'light'; }
     }
@@ -134,20 +137,31 @@ layout: default
     }catch(e){ /* IntersectionObserver not supported */ }
 
     // Update Giscus theme dynamically when system theme changes
+    // Sync Giscus when system theme or site theme changes
     if(window.matchMedia){
       const mq = window.matchMedia('(prefers-color-scheme: dark)');
       mq.addEventListener && mq.addEventListener('change', function(e){
         const theme = e.matches ? 'dark' : 'light';
-        // If giscus iframe exists, send postMessage to update theme
         const iframe = container.querySelector('iframe');
         if(iframe && iframe.contentWindow){
           iframe.contentWindow.postMessage({giscus: {setConfig: {theme: theme}}}, 'https://giscus.app');
         } else if(container.dataset.loaded){
-          // fallback: reload widget with new theme
           const script = document.getElementById('giscus-script');
           if(script){ script.remove(); container.dataset.loaded = ''; injectGiscus(); }
         }
       });
     }
+
+    // Also listen for the site-level theme change event
+    document.addEventListener('theme-changed', function(e){
+      const theme = e.detail || getPreferredTheme();
+      const iframe = container.querySelector('iframe');
+      if(iframe && iframe.contentWindow){
+        try{ iframe.contentWindow.postMessage({giscus: {setConfig: {theme: theme}}}, 'https://giscus.app'); }catch(_){}
+      } else if(container.dataset.loaded){
+        const script = document.getElementById('giscus-script');
+        if(script){ script.remove(); container.dataset.loaded = ''; injectGiscus(); }
+      }
+    });
   })();
   </script>

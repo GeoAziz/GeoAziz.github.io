@@ -1,7 +1,11 @@
 /* UI refresh: improved typography, nav, hero, and post cards */
-:root{--accent:#0066ff;--accent-2:#00b894;--bg:#ffffff;--muted:#6b7280;--card:#ffffff;--glass:rgba(255,255,255,0.6);--shadow:0 6px 18px rgba(15,23,42,0.06)}
+:root{--accent:#0066ff;--accent-2:#00b894;--bg:linear-gradient(180deg,#f7fbff 0%,#ffffff 40%);--bg-solid:#ffffff;--text:#0f172a;--muted:#6b7280;--card:#ffffff;--glass:rgba(255,255,255,0.6);--shadow:0 6px 18px rgba(15,23,42,0.06)}
+
+/* Dark theme overrides */
+[data-theme="dark"]{--bg:linear-gradient(180deg,#071027 0%,#071724 40%);--bg-solid:#071027;--text:#e6eef9;--muted:#9aa6b2;--card:#071827;--glass:rgba(6,10,15,0.6);--shadow:0 10px 30px rgba(2,6,12,0.6)}
+
 *{box-sizing:border-box}
-body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;color:#0f172a;background:linear-gradient(180deg,#f7fbff 0%,#ffffff 40%);margin:0}
+body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.6;color:var(--text);background:var(--bg);margin:0}
 .container{max-width:1000px;margin:0 auto;padding:2rem}
 
 /* Navigation */
@@ -9,7 +13,7 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 .site-nav .nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:0.75rem 1rem}
 .site-title{font-weight:800;color:var(--accent);text-decoration:none;font-size:1.05rem;letter-spacing:0.2px}
 .nav-links{list-style:none;margin:0;padding:0;display:flex;gap:1rem;align-items:center}
-.nav-links a{display:inline-block;text-decoration:none;color:rgba(15,23,42,0.9);padding:0.4rem 0.6rem;border-radius:6px;transition:all .18s ease}
+.nav-links a{display:inline-block;text-decoration:none;color:var(--text);padding:0.4rem 0.6rem;border-radius:6px;transition:all .18s ease}
 .nav-links a:hover{color:var(--accent);transform:translateY(-1px)}
 .nav-cta{background:var(--accent);color:white;padding:0.45rem 0.8rem;border-radius:8px;text-decoration:none;font-weight:600}
 .nav-cta:hover{background:#0050d1}
@@ -41,7 +45,7 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 
 /* Post pagination styling */
 .post-pagination{display:flex;gap:1rem;align-items:center;justify-content:space-between;margin-top:20px}
-.post-pagination a{display:inline-flex;align-items:center;gap:0.6rem;padding:0.6rem 0.9rem;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.06);text-decoration:none;color:rgba(15,23,42,0.9);font-weight:600;box-shadow:0 6px 18px rgba(11,15,26,0.04);transition:transform .16s ease,box-shadow .16s ease}
+.post-pagination a{display:inline-flex;align-items:center;gap:0.6rem;padding:0.6rem 0.9rem;border-radius:10px;background:var(--card);border:1px solid rgba(15,23,42,0.06);text-decoration:none;color:var(--text);font-weight:600;box-shadow:0 6px 18px rgba(11,15,26,0.04);transition:transform .16s ease,box-shadow .16s ease}
 .post-pagination a:hover{transform:translateY(-4px);box-shadow:0 20px 36px rgba(11,15,26,0.08)}
 .post-pagination .prev-post a{padding-left:0.7rem}
 .post-pagination .next-post a{padding-right:0.7rem}
