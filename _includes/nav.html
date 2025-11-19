@@ -1,10 +1,13 @@
 <nav class="site-nav">
   <div class="nav-inner">
     <a class="site-title" href="/">{{ site.title | default: "Home" }}</a>
+    <input id="nav-checkbox" class="nav-checkbox" type="checkbox" aria-hidden="true">
+    <label for="nav-checkbox" class="nav-toggle" aria-label="Toggle navigation">☰</label>
     <ul class="nav-links">
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/projects/">Projects</a></li>
       <li><a href="/about/">About Me</a></li>
+      <li><a class="nav-cta" href="/#subscribe">Subscribe</a></li>
     </ul>
   </div>
 </nav>
