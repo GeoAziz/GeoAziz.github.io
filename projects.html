@@ -1,0 +1,81 @@
+---
+layout: default
+title: "Projects"
+permalink: /projects/
+---
+
+<header class="projects-hero hero-futuristic">
+  <canvas id="projects-hero-canvas" aria-hidden="true"></canvas>
+  <div class="container">
+    <h1>🚀 My Tech Projects</h1>
+    <p class="subtitle">From experiments → production systems. I build security tools, AI engines, automation workflows, and futuristic web apps. Here’s a collection of my best work — with full write-ups.</p>
+  </div>
+</header>
+
+<section class="container filters">
+  <div class="filter-bar" role="toolbar" aria-label="Project filters">
+    <button class="filter-btn active" data-filter="*" aria-pressed="true">All</button>
+    <button class="filter-btn" data-filter="AI" aria-pressed="false">AI</button>
+    <button class="filter-btn" data-filter="Networking" aria-pressed="false">Networking</button>
+    <button class="filter-btn" data-filter="Security" aria-pressed="false">Security</button>
+    <button class="filter-btn" data-filter="Web" aria-pressed="false">Web</button>
+    <button class="filter-btn" data-filter="DevOps" aria-pressed="false">DevOps</button>
+    <button class="filter-btn" data-filter="Experiments" aria-pressed="false">Experiments</button>
+  </div>
+</section>
+
+<section class="container projects-grid">
+  <!-- Project cards: add at least 5 -->
+  <article class="project-card reveal" role="article" data-cats="Python Security Experiments">
+    <div class="card-media"><img src="/assets/images/projects/cloudflare-mini.jpg" alt="Mini Cloudflare Engine" loading="lazy"></div>
+    <div class="card-body">
+      <h3>Mini Cloudflare Engine</h3>
+      <p class="muted small">A Python-based request privacy layer using Tor routing, custom headers, and stealth-mode request construction.</p>
+      <p class="tech">Tech: Python, Requests, Tor, AsyncIO</p>
+      <p class="card-links"><a class="nav-cta" href="/projects/mini-cloudflare-engine/">Read Case Study</a> <a class="ghost" href="https://github.com/{{ site.github_username }}/mini-cloudflare-engine" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="project-card reveal" role="article" data-cats="AI DevOps Web">
+    <div class="card-media"><img src="/assets/images/projects/devmahnx-ai.jpg" alt="DevMahnX" loading="lazy"></div>
+    <div class="card-body">
+      <h3>DevMahn X — AI Trading Bot</h3>
+      <p class="muted small">An intelligent trading bot using liquidity metrics and trend prediction models with automation pipelines.</p>
+      <p class="tech">Tech: Python, FastAPI, ML</p>
+      <p class="card-links"><a class="nav-cta" href="/projects/devmahnx-ai-trading-bot/">Read Case Study</a> <a class="ghost" href="#">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="project-card reveal" role="article" data-cats="Networking">
+    <div class="card-media"><img src="/assets/images/projects/packet-tracer.jpg" alt="Packet Tracer Lab" loading="lazy"></div>
+    <div class="card-body">
+      <h3>Packet Tracer Mega Network Lab</h3>
+      <p class="muted small">Enterprise-grade network simulation: VLANs, routers, firewalls, OSPF, DHCP, and ISP modeling.</p>
+      <p class="tech">Tech: Cisco, VLANs, Routing</p>
+      <p class="card-links"><a class="nav-cta" href="#">Read Case Study</a> <a class="ghost" href="#">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="project-card reveal" role="article" data-cats="Web Experiments">
+    <div class="card-media"><img src="/assets/images/projects/portfolio.jpg" alt="Portfolio Sites" loading="lazy"></div>
+    <div class="card-body">
+      <h3>Portfolio Sites & Demos</h3>
+      <p class="muted small">Collection of small web apps, demos, and UI experiments written in React and vanilla JS.</p>
+      <p class="tech">Tech: JS, React</p>
+      <p class="card-links"><a class="nav-cta" href="#">Read Case Study</a> <a class="ghost" href="#">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="project-card reveal" role="article" data-cats="DevOps Experiments">
+    <div class="card-media"><img src="/assets/images/projects/automation.jpg" alt="Automation" loading="lazy"></div>
+    <div class="card-body">
+      <h3>CI/CD & Automation Labs</h3>
+      <p class="muted small">Pipelines, infra-as-code, and small orchestration examples for automated deployments and tests.</p>
+      <p class="tech">Tech: Docker, GitHub Actions, Terraform</p>
+      <p class="card-links"><a class="nav-cta" href="#">Read Case Study</a> <a class="ghost" href="#">GitHub</a></p>
+    </div>
+  </article>
+
+</section>
+
+<script src="/assets/projects.js" defer></script>
