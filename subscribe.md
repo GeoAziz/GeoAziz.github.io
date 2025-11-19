@@ -14,7 +14,7 @@ Get updates on:
 
 ### Enter your email below:
 
-<form action="https://buttondown.email/api/emails/embed-subscribe/YOUR_USERNAME" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/YOUR_USERNAME', 'popupwindow')">
+<form action="https://buttondown.email/api/emails/embed-subscribe/{{ site.buttondown_username }}" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/{{ site.buttondown_username }}', 'popupwindow')">
     <input type="email" name="email" placeholder="you@example.com" required />
     <input type="submit" value="Subscribe" />
 </form>

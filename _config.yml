@@ -27,6 +27,9 @@ url: "https://geoaziz.github.io" # the base hostname & protocol for your site
 twitter_username: GeoAziz
 github_username: GeoAziz
 
+# Buttondown newsletter username (replace with your username)
+buttondown_username: "GeoAziz"
+
 # Build settings
 theme: minima
 plugins:

@@ -64,6 +64,13 @@ body{font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Ro
 .share a{color:var(--accent);text-decoration:none;font-weight:600}
 .share a:hover{text-decoration:underline}
 
+/* Inline share icons */
+.share {display:flex;flex-direction:column;align-items:flex-start}
+.share .share-link{display:inline-flex;align-items:center;justify-content:center;width:44px;height:36px;border-radius:8px;background:transparent;border:1px solid rgba(15,23,42,0.04);margin-right:0.5rem;color:var(--accent);margin-bottom:6px}
+.share .share-link svg{display:block}
+.share .share-link:hover{background:rgba(0,102,255,0.06);transform:translateY(-2px)}
+
+
 
 /* Simple content improvements */
 .site-main .container h2{margin-top:0}

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Cloudflare Outage Report"
-date:   2025-11-23 10:00:00 +0300
+date:   2025-11-19 10:00:00 +0000
 categories: blog
 tags: [Cloudflare, Outage, Networking, Web]
 ---
