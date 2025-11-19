@@ -1,0 +1,28 @@
+{%- comment -%}
+Reusable picture include for project thumbnails.
+Usage:
+  {% include picture.html src="mini-cloudflare-engine" alt="Mini Cloudflare Engine" %}
+
+Outputs a <picture> that prefers AVIF -> WebP -> PNG with 2x retina variants
+and applies an optional low-quality placeholder background if file `-lqip.jpg` exists.
+{%- endcomment -%}
+
+{%- assign base = include.src -%}
+{%- assign alt = include.alt | default: "" -%}
+{%- assign cls = include.class | default: "" -%}
+
+<div class="card-media {{ cls }}" style="background-image: url('/assets/images/projects/{{ base }}-lqip.jpg'); background-size: cover; background-position: center;">
+  <picture>
+    {%- assign avif_path = '/assets/images/projects/' | append: base | append: '.avif' -%}
+    {%- assign webp_path = '/assets/images/projects/' | append: base | append: '.webp' -%}
+    {%- assign avif_exists = site.static_files | where: "path", avif_path -%}
+    {%- assign webp_exists = site.static_files | where: "path", webp_path -%}
+    {%- if avif_exists.size > 0 -%}
+      <source type="image/avif" srcset="/assets/images/projects/{{ base }}.avif 1x, /assets/images/projects/{{ base }}@2x.avif 2x">
+    {%- endif -%}
+    {%- if webp_exists.size > 0 -%}
+      <source type="image/webp" srcset="/assets/images/projects/{{ base }}.webp 1x, /assets/images/projects/{{ base }}@2x.webp 2x">
+    {%- endif -%}
+    <img src="/assets/images/projects/{{ base }}.png" srcset="/assets/images/projects/{{ base }}@2x.png 2x" alt="{{ alt }}" loading="lazy" decoding="async">
+  </picture>
+</div>
