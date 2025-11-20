@@ -88,3 +88,19 @@ Happy containerizing! 🚢
 If you'd like, I can:
 - Add a tag listing page for `docker` posts so readers can click the tag and see other articles.
 - Add a short demo `app.py` and a GitHub gist for the example so readers can copy it quickly.
+
+### Try the demo
+
+I added a tiny FastAPI demo in the repository you can build with Docker:
+
+Repository: https://github.com/GeoAziz/GeoAziz.github.io/tree/main/examples/docker-demo
+
+Quick commands:
+
+```bash
+# build and run
+docker build -t docker-demo examples/docker-demo
+docker run -p 8000:8000 docker-demo
+```
+
+Visit http://localhost:8000 to see the app respond.
