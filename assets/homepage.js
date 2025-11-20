@@ -82,6 +82,16 @@
   // Smooth anchor scrolling
   function initAnchors(){ document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click', function(e){ const t=document.querySelector(this.getAttribute('href')); if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); } }); }); }
 
+  // Image LQIP -> full fade (for .lazy-fade images)
+  function initImageFade(){
+    document.querySelectorAll('img.lazy-fade').forEach(img=>{
+      if(img.complete && img.naturalWidth){ img.classList.add('loaded'); return; }
+      img.addEventListener('load', function(){ img.classList.add('loaded'); });
+      // safety: if image errors or never fires, reveal after timeout
+      setTimeout(()=>{ if(!img.classList.contains('loaded')) img.classList.add('loaded'); }, 2500);
+    });
+  }
+
   // Boot
-  document.addEventListener('DOMContentLoaded', function(){ initParticles(); initTypewriter(); initReveal(); initTilt(); initCarousel(); initAnchors(); });
+  document.addEventListener('DOMContentLoaded', function(){ initParticles(); initTypewriter(); initReveal(); initTilt(); initCarousel(); initAnchors(); initImageFade(); });
 })();
