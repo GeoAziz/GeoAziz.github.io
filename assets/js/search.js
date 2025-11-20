@@ -1,7 +1,7 @@
 // Lightweight Fuse.js-powered site search
 // Loads /search.json and wires a modal with keyboard navigation
 (function(){
-  let index = null; let fuse = null; let results = [];
+  let index = null; let fuse = null; let results = []; let lastMatches = null; let activeTag = null;
   const fetchIndex = async ()=>{
     try{
       const r = await fetch('/search.json');
@@ -37,25 +37,34 @@
   function renderResults(query){
     const out = document.getElementById('search-results'); if(!out) return;
     if(!query){ out.innerHTML = '<p class="search-hint">Type to search posts…</p>'; return; }
-    if(!fuse){ out.innerHTML = '<p class="search-hint">Indexing…</p>'; return; }
-    const res = fuse.search(query, {limit: 12});
-    results = res.map(r=>r.item);
+  if(!fuse){ out.innerHTML = '<p class="search-hint">Indexing…</p>'; return; }
+  // Apply tag filter if set
+  const opts = {limit: 12};
+  let res = fuse.search(query, opts);
+  // res is array of {item, matches}
+  // store matches for highlighting
+  lastMatches = res;
+  results = res.map(r=>r.item);
+  if(activeTag){ results = results.filter(it => (it.tags||[]).includes(activeTag)); res = res.filter(r => (r.item.tags||[]).includes(activeTag)); }
     if(results.length === 0){ out.innerHTML = '<p class="search-none">No results</p>'; return; }
     // Best match card
-    const primary = results[0];
+  const primary = results[0];
     let html = '';
     html += '<div class="search-primary">';
     html += `<a class="search-link" href="${primary.url}">`;
     if(primary.thumbnail) html += `<img class="search-thumb" src="${primary.thumbnail}" alt="">`;
-    html += `<div class="search-meta"><h3>${escapeHtml(primary.title)}</h3>`;
-    if(primary.excerpt) html += `<p class="search-excerpt">${escapeHtml(truncate(primary.excerpt,180))}</p>`;
+  // Use matches data to highlight primary result title & excerpt
+  const primaryMatch = res && res.length>0 ? res[0].matches : null;
+  html += `<div class="search-meta"><h3>${highlightText(primary.title, primaryMatch, 'title')}</h3>`;
+  if(primary.excerpt) html += `<p class="search-excerpt">${highlightText(truncate(primary.excerpt,180), primaryMatch, 'excerpt')}</p>`;
     html += `<p class="search-tags">${(primary.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join(' ')}</p>`;
     html += `</div></a></div>`;
     // Secondary list
     html += '<ul class="search-list">';
     for(let i=1;i<Math.min(results.length,10);i++){
       const it = results[i];
-      html += `<li data-index="${i}"><a href="${it.url}"><strong>${escapeHtml(it.title)}</strong> <small>${escapeHtml((it.excerpt||'').slice(0,120))}</small></a></li>`;
+      const match = res[i] && res[i].matches ? res[i].matches : null;
+      html += `<li data-index="${i}"><a href="${it.url}"><strong>${highlightText(it.title, match, 'title')}</strong> <small>${highlightText((it.excerpt||'').slice(0,120), match, 'excerpt')}</small></a></li>`;
     }
     html += '</ul>';
     out.innerHTML = html;
@@ -71,6 +80,21 @@
     const prim = results && results[0]; if(prim) window.location.href = prim.url; }
   }
 
+  function highlightText(text, matches, key){
+    if(!matches || !Array.isArray(matches)) return escapeHtml(text);
+    // find match entry for the given key
+    const m = matches.find(x => x.key === key) || matches.find(x => x.key === 'content') || matches[0];
+    if(!m || !m.indices) return escapeHtml(text);
+    const parts = []; let last = 0;
+    m.indices.forEach(([start,end])=>{
+      parts.push(escapeHtml(text.slice(last,start)));
+      parts.push('<mark>' + escapeHtml(text.slice(start,end+1)) + '</mark>');
+      last = end+1;
+    });
+    parts.push(escapeHtml(text.slice(last)));
+    return parts.join('');
+  }
+
   function escapeHtml(s){ return (s||'').replace(/[&"'<>]/g, function(c){ return {'&':'&amp;','"':'&quot;','\'':'&#39;','<':'&lt;','>':'&gt;'}[c]; }); }
   function truncate(s,n){ return s && s.length>n ? s.slice(0,n-1)+'…' : s; }
 
@@ -80,6 +104,19 @@
     const openBtn = document.getElementById('open-search'); if(openBtn) openBtn.addEventListener('click', function(e){ e.preventDefault(); openSearch(); });
     const modal = document.getElementById('search-modal'); if(!modal) return;
     const inp = modal.querySelector('input'); const out = document.getElementById('search-results');
+    // populate tag filters from index
+    const tagContainer = document.getElementById('search-tags');
+    if(tagContainer && index){
+      const uniq = Array.from(new Set(index.flatMap(p=>p.tags||[]))).sort((a,b)=>a.localeCompare(b));
+      uniq.forEach(t=>{
+        const btn = document.createElement('button'); btn.type='button'; btn.textContent = t; btn.addEventListener('click', function(){
+          // toggle
+          if(activeTag === t){ activeTag = null; btn.classList.remove('active'); } else { activeTag = t; // clear others
+            tagContainer.querySelectorAll('button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+          renderResults(inp.value.trim());
+        }); tagContainer.appendChild(btn);
+      });
+    }
     const deb = debounce(function(){ renderResults(inp.value.trim()); }, 160);
     inp.addEventListener('input', deb);
     modal.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ closeSearch(); } else if(e.key === 'ArrowDown'){ e.preventDefault(); moveSelection(1);} else if(e.key === 'ArrowUp'){ e.preventDefault(); moveSelection(-1);} else if(e.key === 'Enter'){ e.preventDefault(); openSelected(); } });

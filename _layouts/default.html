@@ -26,6 +26,10 @@
       <div class="search-wrap">
         <button class="search-close" aria-label="Close search">×</button>
         <input type="search" placeholder="Search the site — try 'docker', 'networking', 'traceroute'" aria-label="Search" />
+        <div class="search-filters">
+          <label>Filter by tag:</label>
+          <div id="search-tags" class="search-tags"></div>
+        </div>
         <div id="search-results" class="search-results"><p class="search-hint">Type to search posts…</p></div>
       </div>
     </div>
@@ -40,7 +44,14 @@
       <a href="/about/">About</a>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    <!-- Load Fuse.js from CDN, but try a local fallback if it fails (put a copy at assets/vendor/fuse.min.js to serve locally) -->
+    <script>
+      (function(){
+        var cdn = 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js';
+        function loadScript(src, cb){ var s=document.createElement('script'); s.src=src; s.onload=cb; s.onerror=cb; document.head.appendChild(s); }
+        loadScript(cdn, function(){ if(typeof window.Fuse === 'undefined'){ loadScript('/assets/vendor/fuse.min.js', function(){ /* local fallback loaded or missing */ }); } });
+      })();
+    </script>
     <script src="/assets/js/search.js" defer></script>
 
     <script>
