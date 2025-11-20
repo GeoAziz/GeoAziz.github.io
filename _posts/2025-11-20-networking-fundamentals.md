@@ -3,7 +3,10 @@ layout: post
 title: "Networking Fundamentals — The Internet Behind The Scenes"
 date: 2025-11-19 08:00:00 +0000
 tags: [networking, internet, fundamentals, day-9]
+category: networking
 image: /assets/images/blog/networking-thumb.svg
+thumbnail: /assets/images/blog/networking-thumb.svg
+reading_time: 6
 excerpt: "A beginner-friendly deep dive into how networking works: packets, protocols, routing, and practical mental models for latency and reliability."
 ---
 

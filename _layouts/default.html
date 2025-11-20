@@ -21,6 +21,27 @@
         <p>&copy; {{ site.title }} · {{ site.time | date: '%Y' }}</p>
       </div>
     </footer>
+    <!-- Search modal + quick-nav -->
+    <div id="search-modal" class="search-modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="search-wrap">
+        <button class="search-close" aria-label="Close search">×</button>
+        <input type="search" placeholder="Search the site — try 'docker', 'networking', 'traceroute'" aria-label="Search" />
+        <div id="search-results" class="search-results"><p class="search-hint">Type to search posts…</p></div>
+      </div>
+    </div>
+
+    <button id="quick-nav-button" class="quick-nav">⚡</button>
+    <nav id="quick-nav-menu" class="quick-nav-menu" aria-hidden="true">
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+      <a href="/projects/">Projects</a>
+      <a href="/projects/mini-cloudflare-engine.html">Case Studies</a>
+      <a href="/tags/">Tags</a>
+      <a href="/about/">About</a>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    <script src="/assets/js/search.js" defer></script>
 
     <script>
     // Site theme controller: reads stored preference, falls back to system, and exposes toggle
@@ -160,5 +181,21 @@
       });
     })();
     </script>
+  <style>
+  /* Search modal styles */
+  .search-modal{position:fixed;inset:0;display:flex;align-items:start;justify-content:center;padding:72px 20px;pointer-events:none;opacity:0;transition:opacity .18s ease}
+  .search-modal.open{pointer-events:auto;opacity:1;background:rgba(8,10,15,0.45);backdrop-filter: blur(6px)}
+  .search-wrap{background:var(--bg);width:min(980px,98%);max-height:80vh;border-radius:10px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);overflow:auto}
+  .search-wrap input{width:100%;padding:12px 14px;font-size:18px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);margin-bottom:12px}
+  .search-results .search-primary{display:flex;gap:12px;align-items:center}
+  .search-thumb{width:120px;height:80px;object-fit:cover;border-radius:6px}
+  .search-list{list-style:none;padding:0;margin:10px 0}
+  .search-list li{padding:8px;border-radius:6px}
+  .search-list li.selected{background:rgba(0,0,0,0.06)}
+  .quick-nav{position:fixed;right:18px;bottom:18px;background:var(--accent);color:#fff;border:none;width:52px;height:52px;border-radius:999px;box-shadow:0 6px 22px rgba(0,0,0,0.2);font-size:20px}
+  .quick-nav-menu{position:fixed;right:18px;bottom:78px;background:var(--bg);padding:12px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.12);display:flex;flex-direction:column;gap:6px;transform:translateY(6px);opacity:0;transition:opacity .12s ease,transform .12s ease}
+  .quick-nav-menu.open{opacity:1;transform:none}
+  .quick-nav-menu a{padding:8px 10px;border-radius:6px;text-decoration:none;color:inherit}
+  </style>
   </body>
 </html>

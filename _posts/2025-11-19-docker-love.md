@@ -3,8 +3,11 @@ layout: post
 title: "Why I Love Docker: The Tool Every Developer Should Learn"
 date: 2025-11-19 11:48:00 +0000
 categories: [blog]
+category: devops
 tags: [docker, devops, containers]
 image: /assets/images/blog/docker-thumb.png
+thumbnail: /assets/images/blog/docker-thumb.png
+reading_time: 4
 excerpt: "A short, friendly introduction to Docker: what it is, why it matters, and how to get started with a tiny Dockerfile."
 ---
 

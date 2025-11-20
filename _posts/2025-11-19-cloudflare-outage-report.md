@@ -3,7 +3,10 @@ layout: post
 title:  "Cloudflare Outage Report"
 date:   2025-11-19 10:00:00 +0000
 categories: blog
+category: incident
 tags: [Cloudflare, Outage, Networking, Web]
+thumbnail: /assets/images/blog/cloudflare-outage-thumb.png
+reading_time: 6
 ---
 
 On **November 19, 2025**, Cloudflare experienced a major global outage that impacted millions of websites and services. As a web developer and tech enthusiast, this incident gave me a front-row seat to how CDNs, proxies, and edge networks operate in real-world scenarios.
