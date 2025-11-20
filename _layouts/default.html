@@ -69,6 +69,37 @@
           if(btnLight) btnLight.addEventListener('click', function(){ setTheme('light'); menu.setAttribute('aria-hidden','true'); });
           if(btnDark) btnDark.addEventListener('click', function(){ setTheme('dark'); menu.setAttribute('aria-hidden','true'); });
           if(btnSystem) btnSystem.addEventListener('click', function(){ setSystem(); menu.setAttribute('aria-hidden','true'); });
+          
+            // Focus trap for the menu when open
+            const menuButton = document.getElementById('theme-menu-button');
+            if(menuButton){
+              menuButton.addEventListener('click', function(e){
+                const isOpen = menu.getAttribute('aria-hidden') === 'false';
+                menu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+                menuButton.setAttribute('aria-expanded', (!isOpen).toString());
+                if(!isOpen){
+                  // focus first focusable item
+                  const first = menu.querySelector('[role="menuitem"]'); if(first) first.focus();
+                } else {
+                  menuButton.focus();
+                }
+              });
+            }
+
+            function trapFocusInMenu(e){
+              if(menu.getAttribute('aria-hidden') === 'true') return;
+              const focusable = Array.from(menu.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
+              if(focusable.length === 0) return;
+              const first = focusable[0]; const last = focusable[focusable.length-1];
+              if(e.key === 'Tab'){
+                if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+                else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+              }
+              if(e.key === 'Escape'){
+                menu.setAttribute('aria-hidden','true'); menuButton && menuButton.focus();
+              }
+            }
+            menu.addEventListener('keydown', trapFocusInMenu);
         }
 
         // Close menu on Escape anywhere
