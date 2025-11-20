@@ -1,0 +1,6 @@
+{
+  // Treat Jekyll-generated JSON templates containing front-matter as Liquid
+  "files.associations": {
+    "**/search.json": "liquid"
+  }
+}
